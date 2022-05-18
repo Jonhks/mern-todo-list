@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const dotenv = require('dotenv').config();
 const cors = require('cors');
 const path = require('path')
+const todoItemRoute = require('./routes/todoitems')
 
 const app = express();
 app.use(express.json());
@@ -11,7 +12,6 @@ const PORT = process.env.PORT || 5500;
 
 app.use(cors())
 
-const todoItemRoute = require('./routes/todoitems')
 
 
 mongoose.connect(process.env.DB_CONNECT)

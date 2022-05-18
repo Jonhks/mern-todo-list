@@ -2,6 +2,9 @@ import { useEffect, useState} from 'react'
 import axios from 'axios'
 import './scss/app.scss';
 
+import Form from './components/Form';
+import TodoItem from './components/TodoItem';
+
 function App() {
 
   const [itemText, setItemText] = useState('');
@@ -14,7 +17,7 @@ function App() {
     try { 
       const res = await axios.post('http://localhost:5500/api/item', {item: itemText})
       setListItems(prev => [...prev, res.data]);
-      console.log(res)
+      console.log(res.data)
       setItemText(' ')
     } catch (err) {
       console.log(err)
@@ -30,7 +33,7 @@ function App() {
         console.log(err)
       }
     }
-    getItemList()
+    getItemList();
   },[]);
 
   const deleteItem = async id => {
@@ -58,7 +61,7 @@ function App() {
     }
   }
 
-  const renderUpdateForm = () =>(
+  const renderUpdateForm = () => (
     <form className='update-form' onSubmit={e => updateItem(e)}>
       <input className='update-new-input' type="text" placeholder='New Item' value={updateItemText} onChange={e => setUpdateItemText(e.target.value)} />
       <button className='update-new-btn' type='submit'>Update</button>
@@ -68,45 +71,22 @@ function App() {
   return (
     <div className="App">
       <h1 className="title">Todo list</h1>
-      <form className="form" onSubmit={e => addItem(e)}>
-        <input 
-          className="input-item"
-          type="text" 
-          placeholde="Add Todo Item"
-          value={itemText}
-          onChange={
-            e => setItemText(e.target.value)
-          }
-        />
-        <button className="btn-submit" type="submit">Add</button>  
-      </form> 
       <div className="todo-listItems">
+        <Form 
+          addItem={addItem} 
+          itemText={itemText} 
+          setItemText={setItemText}
+        />
        {
          listItems.map(item => (
-          <div key={item._id} className="todo-item">
-            {
-              isUpdating === item._id 
-              ? renderUpdateForm()
-              : <>
-                  <p  className="item-content">{item.item}</p>
-                  <button 
-                    className="update-item"
-                    onClick={(e) => {
-                      e.preventDefault()
-                      setIsUpdating(item._id)
-                    }}
-                  >
-                    Update
-                  </button>
-                  <button 
-                    className="delete-item"
-                    onClick={() => deleteItem(item._id)}
-                  >
-                    Delete
-                  </button>
-              </>
-            }
-          </div>
+          <TodoItem 
+            key={item._id}
+            item={item} 
+            isUpdating={isUpdating} 
+            renderUpdateForm={renderUpdateForm}
+            setIsUpdating={setIsUpdating} 
+            deleteItem={deleteItem} 
+          />
          ))
        }
       </div>
