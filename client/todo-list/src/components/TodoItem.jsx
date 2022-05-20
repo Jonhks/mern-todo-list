@@ -11,6 +11,7 @@ const TodoItem = (props) => {
           <p data-testid="itemName" className="item-content">{item.item}</p>
           <button 
             className="update-item"
+            id="edit-todo-buttom"
             onClick={(e) => {
               e.preventDefault()
               setIsUpdating(item._id)
@@ -19,6 +20,7 @@ const TodoItem = (props) => {
             Update
           </button>
           <button 
+            id="delete-todo-buttom"
             className="delete-item"
             onClick={() => deleteItem(item._id)}
           >

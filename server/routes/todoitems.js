@@ -3,6 +3,15 @@ const router = express();
 
 const TodoitemsModel = require('../models/todoitems');
 
+// router.post('/reset', async (req, res) => {
+//     try{
+//     await TodoitemsModel.deleteMany({})
+//     res.status(204).end
+//     } catch(err){
+//         res.json(err)
+//     }
+// })
+
 router.post('/api/item', async (req, res) => {
     try{
         const newItem = new TodoitemsModel({
@@ -17,7 +26,7 @@ router.post('/api/item', async (req, res) => {
 
 router.get('/api/items', async (req, res) => {
     try {
-        const allTodoItems = await TodoitemsModel.find({});
+        const allTodoItems = await (await TodoitemsModel.find({}));
         res.status(200).json(allTodoItems)
     } catch (err) {
         res.json(err)

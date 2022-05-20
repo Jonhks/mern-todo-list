@@ -14,7 +14,7 @@ const Form = ({addItem, itemText, setItemText}) => {
            e => setItemText(e.target.value)
         }
        />
-      <button className="btn-submit" type="submit">Add</button>  
+      <button id="form-add-buttom" className="btn-submit" type="submit">Add</button>  
       </form> 
     )
 }

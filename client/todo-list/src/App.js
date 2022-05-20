@@ -14,6 +14,7 @@ function App() {
   
   const addItem = async e => {
     e.preventDefault()
+    if (itemText.trim().length === 0) return;
     try { 
       const res = await axios.post('http://localhost:5500/api/item', {item: itemText})
       setListItems(prev => [...prev, res.data]);
@@ -28,6 +29,7 @@ function App() {
     const getItemList = async () => {
       try {
         const res = await axios.get('http://localhost:5500/api/items')
+        res.data.reverse()
         setListItems(res.data)
       } catch (err) {
         console.log(err)
@@ -63,8 +65,8 @@ function App() {
 
   const renderUpdateForm = () => (
     <form className='update-form' onSubmit={e => updateItem(e)}>
-      <input className='update-new-input' type="text" placeholder='New Item' value={updateItemText} onChange={e => setUpdateItemText(e.target.value)} />
-      <button className='update-new-btn' type='submit'>Update</button>
+      <input id='update-item' className='update-new-input' type="text" placeholder='New Item' value={updateItemText} onChange={e => setUpdateItemText(e.target.value)} />
+      <button id='btn-update-item' className='update-new-btn' type='submit'>Update</button>
     </form>
   )
 
